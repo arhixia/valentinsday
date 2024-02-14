@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ваш сайт</title>
+    <style>
+        /* CSS стили */
+        .container {
+            width: fit-content;
+            margin: 400px auto; /* автоматические отступы слева и справа для выравнивания по центру */
+            text-align: center;
+            transform: scale(3.5); /* Увеличиваем масштаб на 3.5 раза */
+        }
+
+        .heart {
+            position: relative;
+            width: 50px;
+            height: 75px;
+            border: 1px solid black;
+            border-radius: 100px 100px 0 0;
+            transform: rotate(45deg);
+            background-color: IndianRed;
+            margin-left: 50px;
+        }
+
+        .heart1 {
+            position: absolute;
+            width: 50px;
+            height: 75px;
+            border: 1px solid black;
+            border-radius: 100px 100px 0 0;
+            transform: rotate(315deg);
+            background-color: IndianRed;
+            margin-left: 32px;
+            margin-top: -77px;
+        }
+
+        .caption {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            cursor: pointer;
+            font-size: 6.5px; /* Уменьшаем размер текста */
+        }
+
+        .message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="heart"></div>
+        <div class="heart1"></div>
+        <div class="caption" onclick="changeMessage()">С днем святого Валентина! Нажми на надпись!</div>
+        <div class="message">Иди нахуй!</div>
+    </div>
+
+    <script>
+        // JavaScript код
+        document.addEventListener('DOMContentLoaded', function() {
+            // Обработчик события для всех ссылок
+            document.querySelectorAll('a').forEach(function(link) {
+                link.addEventListener('click', function(event) {
+                    // Отменяем действие по умолчанию, чтобы страница не перезагружалась
+                    event.preventDefault();
+
+                    // Загружаем контент вашей страницы
+                    loadPage(this.href);
+                });
+            });
+        });
+
+        function changeMessage() {
+            var caption = document.querySelector('.caption');
+            var message = document.querySelector('.message');
+            if (caption.textContent === 'С днем святого Валентина! Нажми на надпись!') {
+                caption.textContent = 'Иди нахуй!';
+                message.textContent = 'С днем святого Валентина! Нажми на надпись!';
+            } else {
+                caption.textContent = 'С днем святого Валентина! Нажми на надпись!';
+                message.textContent = 'Иди нахуй!';
+            }
+        }
+
+        function loadPage(url) {
+            // Создаем объект XMLHttpRequest для загрузки содержимого страницы
+            var xhr = new XMLHttpRequest();
+
+            // Открываем запрос
+            xhr.open('GET', url, true);
+
+            // Устанавливаем обработчик для события загрузки страницы
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    // Обновляем содержимое элемента .container новым содержимым
+                    document.querySelector('.container').innerHTML = xhr.responseText;
+                }
+            };
+
+            // Отправляем запрос на сервер
+            xhr.send();
+        }
+    </script>
+</body>
+</html>
